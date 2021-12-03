@@ -1,5 +1,6 @@
 package jdbcProduct;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -26,6 +27,10 @@ public class DB {
 		if(rs!=null)try{rs.close();}catch(SQLException e) {}
 		if(pstmt!=null)try{rs.close();}catch(SQLException e) {}
 		if(conn!=null)try{rs.close();}catch(SQLException e) {}
+	}
+	public static void executeClose(CallableStatement cstmt, Connection conn) {
+		if(cstmt!=null)try {cstmt.close();}catch(SQLException e) {}
+		if(conn!=null)try {conn.close();}catch(SQLException e) {}
 	}
 }
 

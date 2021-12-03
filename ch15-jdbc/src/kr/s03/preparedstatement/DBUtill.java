@@ -1,5 +1,6 @@
 package kr.s03.preparedstatement;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,4 +26,34 @@ public class DBUtill {
 		if(pstmt!=null)try {pstmt.close();}catch(SQLException e) {}
 		if(conn!=null)try {conn.close();}catch(SQLException e) {}
 	}
+	
+	public static void executeClose(CallableStatement cstmt, Connection conn) {
+		if(cstmt!=null)try {cstmt.close();}catch(SQLException e) {}
+		if(conn!=null)try {conn.close();}catch(SQLException e) {}
+	}
 }                                                                                                                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
