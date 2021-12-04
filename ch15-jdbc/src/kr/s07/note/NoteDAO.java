@@ -118,11 +118,54 @@ public class NoteDAO {
 	//글 수정
 	public void updateInfo(int num, String name, String passwd, String subject,
 							String content, String email) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
 		
+		try {
+			conn = DBUtill.getConnection();
+			sql = "update note set name=?,passwd=?,subject=?,content=?,email=? where num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, passwd);
+			pstmt.setString(3, subject);
+			pstmt.setString(4, content);
+			pstmt.setString(5, email);
+			pstmt.setInt(6, num);
+			
+			int count = pstmt.executeUpdate();
+			System.out.println(count + "개의 행을 수정했습니다.");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			DBUtill.executeClose(null,pstmt, conn);
+		}
 	}
 	
 	//글 삭제
 	public void deleteInfo(int num) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
 		
+	try {
+		conn = DBUtill.getConnection();
+		sql = "delete from note where num=?";
+		
+		pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setInt(1, num);
+		
+		int count = pstmt.executeUpdate();
+		System.out.println(count + "개의 행을 삭제했습니다.");
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		e.printStackTrace();
+	}finally {
+		DBUtill.executeClose(null, pstmt,conn);
+	}
 	}
 }

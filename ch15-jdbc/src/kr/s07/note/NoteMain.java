@@ -55,8 +55,37 @@ public class NoteMain {
 					int num = Integer.parseInt(br.readLine());
 					note.selectDetailInfo(num);
 				}else if(no == 4) {
+					note.selectListInfo();
+					System.out.println("---------------------");
+					System.out.println("글을 수정하기 위해서 글번호와 정보를 입력하세요");
+					System.out.print("수정할 글번호:");
+					int num = Integer.parseInt(br.readLine());
+					System.out.println("이름:");
+					String name = br.readLine();
+					System.out.println("비밀번호:");
+					String passwd = br.readLine();
+					
+					System.out.println("제목:");
+					String subject = br.readLine();
+					
+					System.out.println("내용:");
+					String content = br.readLine();
+					
+					System.out.println("이메일:");
+					String email = br.readLine();
+					
+					note.updateInfo(num, name, passwd, subject, content, email);
 					
 				}else if(no == 5) {
+					note.selectListInfo();
+					System.out.println("------------");
+					System.out.println("글삭제를 위해서 글번호를 입력하세요!!!");
+					System.out.println("삭제할 글번호:");
+					int num = Integer.parseInt(br.readLine());
+					
+					note.deleteInfo(num);
+					
+					note.selectListInfo();
 					
 				}else if(no == 6) {
 					System.out.println("프로그램을 종료합니다");
