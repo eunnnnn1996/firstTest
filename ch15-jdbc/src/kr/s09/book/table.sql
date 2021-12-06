@@ -1,7 +1,7 @@
 create table member{
 me_num number primary key,
 me_id varchar2(10) unique not null,
-me_passwd varchar(10) not null,
+me_passwd varchar2(10) not null,
 me_name varchar2(30) not null,
 me_phone varchar2(13) not null,
 me_regdate date default SYSDATE not null
