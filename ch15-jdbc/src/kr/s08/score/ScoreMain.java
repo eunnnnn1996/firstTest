@@ -72,9 +72,7 @@ public class ScoreMain {
 				score.setKorean(korean);
 				score.setEnglish(english);
 				score.setMath(math);
-				
 				dao.updateInfo(score);
-				
 				
 			}else if(no==5) { // 삭제
 				System.out.print("번호:");
