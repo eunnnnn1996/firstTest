@@ -96,6 +96,59 @@ public class BookDAO {
 			DBUtill.executeClose(null, pstmt, conn);
 		}
 	}
+	//대출 여부 확인
+	public int getStatusReservation(int bk_num) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int count = 0;
+		try {
+			conn = DBUtill.getConnection();
+			sql = "select re_status from book "
+					+ "left outer join (select * from reservation where re_status=1) using(bk_num) " //잘못입력 값 찾기 위해 아우터조인
+					+ "where bk_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bk_num);
+			
+			rs = pstmt.executeQuery();
+			 
+			if(rs.next()) {
+								//컬럼 인덱스 , if문이라 단일행 조회
+				count = rs.getInt(1); //도서번호가 있을떄
+			} else {
+				count = -1; //도서 번호가 없을떄
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			DBUtill.executeClose(rs, pstmt, conn);
+		}
+		return count;
+	}
+	
+	public void updateReservation(int re_num) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtill.getConnection();
+			sql = "update reservation set re_status=0, re_modifydate=SYSDATE where re_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, re_num);
+			int count = pstmt.executeUpdate();
+			System.out.println(count + "개의 행을 수정 했습니다.");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			DBUtill.executeClose(null, pstmt, conn);
+		}
+	}
+	
 	//대출 목록 보기
 	public void selectListReservation() {
 		Connection conn = null;
