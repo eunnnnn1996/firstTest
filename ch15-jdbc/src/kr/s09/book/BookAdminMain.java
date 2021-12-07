@@ -44,7 +44,7 @@ public class BookAdminMain {
 				}else if(no==3) {
 					dao.selectListBook();
 				}else if(no==4) {
-					
+					dao.selectListReservation();
 				}else if(no==5) {
 					System.out.println("프로그램 종료");
 					break;

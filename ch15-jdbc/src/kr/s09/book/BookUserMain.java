@@ -51,6 +51,14 @@ public class BookUserMain {
 					System.out.print("아이디 : ");
 					String me_id = br.readLine();
 					
+					//아이디 중복 체크
+					int check = dao.checkId(me_id);
+					if(check ==1) {
+						System.out.println("아이디가 중복되었습니다.");
+						continue;
+					}
+					
+					
 					System.out.print("비밀번호 : ");
 					String me_passwd = br.readLine();
 					
@@ -87,10 +95,24 @@ public class BookUserMain {
 			try {
 				int no = Integer.parseInt(br.readLine());
 				if(no==1) {
-
+					dao.selectListBook();
 				}else if(no==2) {
+					System.out.println("====도서검색=====");
+					dao.selectListBook();
 					
+					//while(true) {
+						System.out.println("대출도서번호:");
+						int bk_num = Integer.parseInt(br.readLine());
+						
+						ReservationVO vo = new ReservationVO();
+						vo.setMe_num(me_num); //회원번호
+						vo.setBk_num(bk_num); //도서번호
+						
+						dao.insertReservation(vo);	
+					//}
+						
 				}else if(no==3) {
+					dao.selectMyList(me_num);
 					
 				}else if(no==4) {
 					System.out.println("프로그램 종료");
