@@ -97,37 +97,41 @@ public class BookDAO {
 		}
 	}
 	//대출 여부 확인
+	
 	public int getStatusReservation(int bk_num) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = null;
-		int count = 0;
-		try {
-			conn = DBUtill.getConnection();
-			sql = "select re_status from book "
-					+ "left outer join (select * from reservation where re_status=1) using(bk_num) " //잘못입력 값 찾기 위해 아우터조인
-					+ "where bk_num=?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, bk_num);
-			
-			rs = pstmt.executeQuery();
-			 
-			if(rs.next()) {
-								//컬럼 인덱스 , if문이라 단일행 조회
-				count = rs.getInt(1); //도서번호가 있을떄
-			} else {
-				count = -1; //도서 번호가 없을떄
-			}
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		} finally {
-			DBUtill.executeClose(rs, pstmt, conn);
-		}
-		return count;
-	}
+	      Connection conn = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      String sql = null;
+	      int count = 0;
+	      
+	      try {
+	         //JDBC 수행 1,2단계
+	         conn = DBUtill.getConnection();
+	         //SQL문 작성
+	         sql = "SELECT re_status FROM book LEFT OUTER JOIN " //left outer join 잘못 입력한 값 찾기
+	               + "(SELECT * FROM reservation WHERE re_status=1) USING(bk_num) WHERE bk_num=?";
+	         //JDBC 수행 3단계 : PreparedStatement 객체 생성
+	         pstmt = conn.prepareStatement(sql);
+	         //?에 데이터 바인딩   
+	         pstmt.setInt(1, bk_num);
+	         //JDBC 수행 4단계 : SQL문을 실행해서 테이블로부터 대출여부 조회
+	         rs = pstmt.executeQuery();
+	         if(rs.next()) {
+	                     //컬럼 인덱스
+	            count = rs.getInt(1);//도서 번호가 있을 때
+	         }else{
+	            count = -1;//도서 번호가 없을 때
+	         }
+	      }catch(Exception e) {
+	         e.printStackTrace();
+	      }finally {
+	         //자원정리
+	         DBUtill.executeClose(rs, pstmt, conn);
+	      }
+	      
+	      return count;
+	   }
 	
 	public void updateReservation(int re_num) {
 		Connection conn = null;
@@ -362,5 +366,10 @@ public class BookDAO {
 		}
 
 		return me_num;
+	}
+
+	public int getStatusBack(int re_num, int me_num) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

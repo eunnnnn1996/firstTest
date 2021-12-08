@@ -124,19 +124,22 @@ public class BookUserMain {
 
 					}
 
-				} else if (no == 3) {
-					dao.selectMyList(me_num);
-					// 도서 반납
-					System.out.println("====도서 반납하기====");
-					System.out.print("대출번호(입력중지:0):");
-					int re_num = Integer.parseInt(br.readLine());
-
-					// 입력중지
-					if (re_num == 0)
-						continue;
-
-					// 반납 처리
-					dao.updateReservation(re_num);
+				} else if (no == 3) {//MY대출목록
+		               dao.selectMyList(me_num);
+		               //도서 반납하기
+		               System.out.println("====도서 반납하기====");
+		               System.out.print("대출번호(입력중지:0) : ");
+		               int re_num = Integer.parseInt(br.readLine());
+		               
+		               //입력중지
+		               if(re_num == 0) continue;
+		               
+		               int bk_status = dao.getStatusBack(re_num,me_num);
+		               if(bk_status<=0) {
+		                  System.out.println("대출하지 않은 도서는 반납할 수 없다.");
+		               }
+		               //반납 처리
+		               dao.updateReservation(re_num);
 
 				} else if (no == 4) {
 					System.out.println("프로그램 종료");
